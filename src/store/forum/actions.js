@@ -197,6 +197,30 @@ export function deletePost(context, data) {
       console.log(error);
     })
 }
+export function acceptPost(context, data) {
+  axios
+    .request({
+      url: '/api/forum/accept-post',
+      method: 'post',
+      baseURL: 'https://www.4um.polarlooptheory.pl',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + VueCookies.get("token")
+      },
+      data:{
+        accepted: data.accepted,
+        post_id: data.post_id,
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log("Post accepted successfully");
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
 export function sendComment(context, data) {
   axios
     .request({
@@ -263,6 +287,30 @@ export function voteForThread(context, data) {
     .then(response => {
       if (response.status === 200) {
         console.log("Voted successfully");
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+export function followThread(context, data) {
+  axios
+    .request({
+      url: '/api/forum/follow-thread',
+      method: 'post',
+      baseURL: 'https://www.4um.polarlooptheory.pl',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + VueCookies.get("token")
+      },
+      data:{
+        thread_id: data.thread_id,
+        follow: data.follow
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log("Followed/unfollowed successfully");
       }
     })
     .catch(error => {

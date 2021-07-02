@@ -4,9 +4,9 @@
       <div class="row">
         <q-card square class="shadow-24" style="width:1000px;">
           <q-card-section>
-            <div class="row justify-between">
+            <div class="row justify-between" :key="updateList">
               <q-btn dense round flat icon="arrow_back" @click="$router.go(-1)"/>
-              <q-btn dense round flat :color="btnColor" :icon="btnIcon" @click="changeMe" />
+              <q-btn dense round flat :color="btnColor" :icon="btnIcon" @click="followThread" />
             </div>
             <div class="q-px-lg q-ma-lg text-h4">
               {{ title }}
@@ -77,16 +77,16 @@
                     </q-item-section>
                     <q-item-section class="col q-pt-sm">
                       <div class="row items-end">
-                        <div class="col-2 items-center">
+                        <!--<div class="col-2 items-center">
                           <q-btn dense flat size="md" color="green" icon="expand_less" />
                             0
                           <q-btn dense flat size="md" color="red" icon="expand_more" />
-                        </div>
+                        </div>-->
                         <div class="col-2">
                           <q-btn dense flat size="md" color="secondary" no-caps label="Reply" icon="reply" @click="showMe(index)" />
                         </div>
                         <div v-if="post.user_id == logged_user_id" class="col-2 text-secondary">
-                          <q-btn dense flat icon="delete" no-caps label="Delete" @click="deletePost(post.id)" />
+                          <q-btn dense flat icon="delete" no-caps label="Delete" @click="deletePost(post.id, index)" />
                         </div>
                         <q-space />
                         <div class="col-2 items-start text-secondary">
@@ -111,11 +111,11 @@
                           </q-item-section>
                           <q-item-section class="col q-pt-sm">
                             <div class="row items-end">
-                              <div class="col-2 items-center">
+                              <!--<div class="col-2 items-center">
                                 <q-btn dense flat size="md" color="green" icon="expand_less" />
                                   0
                                 <q-btn dense flat size="md" color="red" icon="expand_more" />
-                              </div>
+                              </div>-->
                               <div v-if="comment.user_id == logged_user_id" class="col-2 text-secondary">
                                 <q-btn dense flat icon="delete" no-caps label="Delete" @click="deleteComment(comment.id)" />
                               </div>
@@ -225,6 +225,12 @@ export default {
           ]
         }
       ],
+      followers: [
+        {
+          name: '',
+          user_id: null
+        }
+      ],
       author: [
         {
           id: null,
@@ -236,7 +242,8 @@ export default {
           avatar_url: ''
         }
       ],
-      showInput: []
+      showInput: [],
+      isFollowing: false
     }
   },
   methods: {
@@ -268,6 +275,7 @@ export default {
             this.number_of_posts = response.data.data.number_of_posts;
             this.tags = response.data.data.tags;
             this.votes = response.data.data.votes;
+            this.followers = response.data.data.followers;
             this.author = response.data.data.author;
             for (var i=0; i<this.number_of_posts; i++){
               this.showInput[i] = false;
@@ -286,6 +294,13 @@ export default {
                   this.clickedUp = false;
                   this.clickedDown = false;
                 }
+              }
+            }
+            for (const follower of this.followers) {
+              if (follower.user_id == this.logged_user_id) {
+                this.isFollowing = true
+                this.btnColor = 'red'
+                this.btnIcon = 'favorite'
               }
             }
 
@@ -341,13 +356,14 @@ export default {
           console.log(error);
         })
     },
-    deletePost(id) {
+    deletePost(id, index) {
       this.$store.dispatch("forum/deletePost", {
         post_id: id,
         quasar: this.$q
       });
-      this.retrieveData();
+      this.posts.splice(index, 1);
       this.updateList+=1;
+
     },
     addComment(id) {
       this.$store.dispatch("forum/sendComment", {
@@ -402,10 +418,36 @@ export default {
       this.retrieveData();
       this.updateList +=1;
     },
+    followThread() {
+
+      if(this.isFollowing){
+        this.$store.dispatch("forum/followThread", {
+          thread_id: this.id,
+          follow: 0,
+          quasar: this.$q
+        });
+        this.isFollowing = false;
+        this.btnColor = 'default'
+        this.btnIcon = 'favorite_border'
+      }
+      else {
+        this.$store.dispatch("forum/followThread", {
+          thread_id: this.id,
+          follow: 1,
+          quasar: this.$q
+        });
+        this.isFollowing = true;
+        this.btnColor = 'red'
+        this.btnIcon = 'favorite'
+      }
+
+      this.retrieveData();
+      this.updateList +=1;
+    },
+
     async handlePost() {
       await this.addPost()
       await this.retrieveData()
-      console.log(this.posts)
       this.updateList+=1
       this.postText = ''
     }

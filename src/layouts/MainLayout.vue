@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
 
     <div class="row no-wrap shadow-2">
-      <q-toolbar class="col-9 bg-primary text-white">
+      <q-toolbar class="col-9 bg-primary text-white" >
         <q-avatar square>
           <img clickable alt="4um logo" src="~assets/logo.png" @click="redirect">
         </q-avatar>

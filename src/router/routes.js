@@ -12,7 +12,8 @@ const routes = [
       { path: '/editor/:id', component: () => import('pages/Editor.vue') },
       { path: '/thread/:id', component: () => import('pages/Thread.vue') },
       { path: '/profile', component: () => import('pages/Profile.vue') },
-      { path: '/profile/settings', component: () => import('pages/Settings.vue') }
+      { path: '/profile/settings', component: () => import('pages/Settings.vue') },
+      { path: '/verify', component: () => import('pages/verify.vue') }
     ]
   },
 
