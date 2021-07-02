@@ -39,7 +39,7 @@
                 <q-btn dense flat icon="delete" label="Delete" no-caps @click="deleteThread" />
               </div>
               <div class="col-2 text-secondary">
-                {{ created_at.replace("T"," ").slice(0,-11) }}
+                {{ moment(created_at).format('DD/MM/YYYY HH:mm:ss') }}
               </div>
               <div class="col-2">
                 <div class="column items-center">
@@ -90,7 +90,7 @@
                         </div>
                         <q-space />
                         <div class="col-2 items-start text-secondary">
-                          {{ post.created_at.replace("T"," ").slice(0,-11) }}
+                          {{ moment(post.created_at).format('DD/MM/YYYY HH:mm:ss')  }}
                         </div>
                         <div class="col-2">
                           <div class="column items-center">
@@ -121,7 +121,7 @@
                               </div>
                               <q-space />
                               <div class="col-2 items-start text-secondary">
-                                {{ comment.created_at.replace("T"," ").slice(0,-11) }}
+                                {{ moment(comment.created_at).format('DD/MM/YYYY HH:mm:ss')  }}
                               </div>
                               <div class="col-2">
                                 <div class="column items-center">
@@ -158,6 +158,7 @@
 <script>
 import VueCookies from "vue-cookies";
 import Vue from "vue";
+import moment from "moment";
 
 Vue.use(VueCookies);
 export default {
@@ -247,6 +248,9 @@ export default {
     }
   },
   methods: {
+    moment: function (date) {
+      return moment(date);
+    },
     showMe(id) {
       this.showInput[id] = !this.showInput[id];
       this.updateList +=1;
@@ -303,7 +307,6 @@ export default {
                 this.btnIcon = 'favorite'
               }
             }
-
           })
     },
     changeMe() {
