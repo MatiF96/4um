@@ -14,7 +14,7 @@
                     <q-item-section avatar>
                       <q-avatar size="70px">
                         <img v-if="thread.author[0].avatar_url" :src="thread.author[0].avatar_url">
-                        <img v-else src="~assets/avatar.png">
+                        <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png">
                       </q-avatar>
                     </q-item-section>
                     <q-item-section class="col-8">

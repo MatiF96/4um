@@ -13,7 +13,7 @@
             <div class="column q-pa-sm items-center">
               <q-avatar size="200px">
                 <img v-if="avatar_url" :src="avatar_url">
-                <img v-else src="~assets/avatar.png">
+                <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png">
               </q-avatar>
               <q-field borderless label="" stack-label >
                 <template v-slot:control>

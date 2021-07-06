@@ -51,7 +51,8 @@
               <div class="col-2">
                 <div class="column items-center">
                   <q-avatar size="50px">
-                    <img alt="user_avatar" :src="author[0].avatar_url" >
+                    <img v-if="author[0].avatar_url" :src="author[0].avatar_url" alt="user_avatar">
+                    <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png" alt="user_avatar">
                   </q-avatar>
                   {{ author[0].name }}
                 </div>
@@ -102,7 +103,8 @@
                         <div class="col-2">
                           <div class="column items-center">
                             <q-avatar size="50px">
-                              <img :src="post.author[0].avatar_url">
+                              <img v-if="post.author[0].avatar_url" :src="post.author[0].avatar_url" alt="user_avatar">
+                              <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png" alt="user_avatar">
                             </q-avatar>
                             {{ post.author[0].name }}
                           </div>
@@ -133,7 +135,8 @@
                               <div class="col-2">
                                 <div class="column items-center">
                                   <q-avatar size="50px">
-                                    <img :src="comment.author[0].avatar_url">
+                                    <img v-if="comment.author[0].avatar_url" :src="comment.author[0].avatar_url" alt="user_avatar">
+                                    <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png" alt="user_avatar">
                                   </q-avatar>
                                   {{ comment.author[0].name }}
                                 </div>

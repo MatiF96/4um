@@ -40,7 +40,7 @@
           <q-chip color="red" text-color="white" clickable size="md" >
             <q-avatar outlined v-if="isLoggedIn" :key="update">
               <img clickable v-if="avatar" :src="avatar" @click="$router.push('/profile')">
-              <img v-else clickable src="~assets/avatar.png" @click="$router.push('/profile')">
+              <img v-else clickable src="https://4um.polarlooptheory.pl/img/avatar.png" @click="$router.push('/profile')">
             </q-avatar>
             <div @click="$router.push('/notifications')" >
               {{ notification }}
@@ -51,7 +51,7 @@
           <q-chip color="transparent" text-color="transparent">
             <q-avatar outlined v-if="isLoggedIn" :key="update">
               <img clickable v-if="avatar" :src="avatar" @click="$router.push('/profile')">
-              <img v-else clickable src="~assets/avatar.png" @click="$router.push('/profile')">
+              <img v-else clickable src="https://4um.polarlooptheory.pl/img/avatar.png" @click="$router.push('/profile')">
             </q-avatar>
           </q-chip>
         </div>
