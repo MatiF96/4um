@@ -7,7 +7,7 @@
             <div class="q-px-lg q-ma-lg text-h6">
               Notifications:
               <q-separator />
-              <div class="absolute-top-right q-pr-lg" style="transform: translateY(50%);">
+              <div v-if="notifications.length>0" class="absolute-top-right q-pr-lg" style="transform: translateY(50%);">
                 <q-btn round @click="deleteAll" icon="delete" color="grey-5" />
               </div>
               <q-list class="q-pt-md">

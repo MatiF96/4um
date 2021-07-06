@@ -165,7 +165,8 @@
 <script>
 import VueCookies from "vue-cookies";
 import Vue from "vue";
-import moment from "moment";
+import moment, { now } from "moment";
+import { Notify } from 'quasar'
 
 Vue.use(VueCookies);
 export default {
@@ -351,7 +352,11 @@ export default {
         thread_id: this.id,
         quasar: this.$q
       });
-      this.postText = ''
+      this.postText = '';
+      Notify.create({
+        message: "Wait, your post is being verfied",
+        caption: moment(now()).format('DD/MM/YYYY HH:mm:ss'),
+      });
     },
     addPost2() {
       this.$axios
