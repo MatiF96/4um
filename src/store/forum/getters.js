@@ -4,3 +4,6 @@ export function getToken (state) {
 export function getUserAvatar (state) {
   return state.user_avatar;
 }
+export function getNotifications (state) {
+  return state.notifications;
+}

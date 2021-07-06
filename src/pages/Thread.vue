@@ -21,7 +21,14 @@
             </div>
           </q-card-section>
           <q-card-section>
-            <div class="row q-px-xl q-ma-sm items-center">
+            <div class="row q-mt-md q-px-xl text-secondary">
+              <q-list separator square class="q-px-lg" v-for="tag in tags" v-bind:key="tag.id" >
+                  <div class="col">
+                    #{{ tag.name }}
+                  </div>
+              </q-list>
+            </div>
+            <div class="row q-px-xl q-ma-xs items-center">
               <div class="col-1">
                 <q-icon color="secondary" size="sm" name="comment"/>
                 {{ number_of_posts }}
@@ -58,7 +65,7 @@
                 <div class="q-pa-sm">
                   <q-input v-model="postText" label="Type your comment here" filled type="text" counter maxlength="255" class="full-height q-pt-md" :input-style="{ resize: 'none' }">
                   <template v-slot:after>
-                    <q-btn round flat icon="send" @click="handlePost" />
+                    <q-btn round flat icon="send" @click="addPost" />
                   </template>
                   </q-input>
                 </div>
@@ -89,7 +96,7 @@
                           <q-btn dense flat icon="delete" no-caps label="Delete" @click="deletePost(post.id, index)" />
                         </div>
                         <q-space />
-                        <div class="col-2 items-start text-secondary">
+                        <div class="col-3 items-start text-secondary">
                           {{ moment(post.created_at).format('DD/MM/YYYY HH:mm:ss')  }}
                         </div>
                         <div class="col-2">
@@ -120,7 +127,7 @@
                                 <q-btn dense flat icon="delete" no-caps label="Delete" @click="deleteComment(comment.id)" />
                               </div>
                               <q-space />
-                              <div class="col-2 items-start text-secondary">
+                              <div class="col-3 items-start text-secondary q-px-md">
                                 {{ moment(comment.created_at).format('DD/MM/YYYY HH:mm:ss')  }}
                               </div>
                               <div class="col-2">
@@ -164,6 +171,15 @@ Vue.use(VueCookies);
 export default {
   created () {
     this.retrieveData();
+  },
+  mounted () {
+    let pusher = new Pusher('4c6c0d7a3990f71c7c1d', {
+      cluster: 'eu'
+    });
+    let threadChannel = pusher.subscribe('thread-update-'+this.$route.params.id);
+    var wtf = this.test();
+
+    threadChannel.bind('thread-updated', this.test.bind(this));
   },
 
   props: ['post'],
@@ -256,7 +272,7 @@ export default {
       this.updateList +=1;
     },
     retrieveData() {
-      return this.$axios
+      this.$axios
           .request({
             url: '/api/forum/get-thread?thread_id='+this.$route.params.id,
             method: 'get',
@@ -307,6 +323,7 @@ export default {
                 this.btnIcon = 'favorite'
               }
             }
+
           })
     },
     changeMe() {
@@ -328,15 +345,16 @@ export default {
         quasar: this.$q
       });
     },
-    addPost2() {
-      return this.$store.dispatch("forum/sendPost", {
+    addPost() {
+      this.$store.dispatch("forum/sendPost", {
         text: this.postText,
         thread_id: this.id,
         quasar: this.$q
       });
+      this.postText = ''
     },
-    addPost() {
-      return this.$axios
+    addPost2() {
+      this.$axios
         .request({
           url: '/api/forum/add-post',
           method: 'post',
@@ -353,6 +371,7 @@ export default {
         .then(response => {
           if (response.status === 200) {
             console.log("Post sent successfully");
+            this.postText = ''
           }
         })
         .catch(error => {
@@ -364,8 +383,8 @@ export default {
         post_id: id,
         quasar: this.$q
       });
-      this.posts.splice(index, 1);
-      this.updateList+=1;
+      //this.posts.splice(index, 1);
+      //this.updateList+=1;
 
     },
     addComment(id) {
@@ -374,16 +393,17 @@ export default {
         post_id: id,
         quasar: this.$q
       });
-      this.retrieveData();
-      this.updateList+=1;
+      this.commentText = ''
+      //this.retrieveData();
+      //this.updateList+=1;
     },
     deleteComment(id) {
       this.$store.dispatch("forum/deleteComment", {
         comment_id: id,
         quasar: this.$q
       });
-      this.retrieveData();
-      this.updateList+=1;
+      //this.retrieveData();
+      //this.updateList+=1;
     },
     voteForThread(score) {
       if(this.clickedUp && score==1){
@@ -418,8 +438,8 @@ export default {
       });
 
       }
-      this.retrieveData();
-      this.updateList +=1;
+      //this.retrieveData();
+      //this.updateList +=1;
     },
     followThread() {
 
@@ -444,15 +464,13 @@ export default {
         this.btnIcon = 'favorite'
       }
 
-      this.retrieveData();
-      this.updateList +=1;
+      //this.retrieveData();
+      //this.updateList +=1;
     },
 
-    async handlePost() {
-      await this.addPost()
-      await this.retrieveData()
-      this.updateList+=1
-      this.postText = ''
+    test() {
+      this.retrieveData();
+      console.log("poszlo");
     }
 	}
 }

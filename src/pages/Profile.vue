@@ -5,7 +5,7 @@
         <q-card square class="shadow-24" style="width:500px;height:700px;">
           <q-card-section>
             <div class="absolute-top-left q-pl-lg" style="transform: translateY(50%);">
-              <q-btn round @click="$router.push('/profile/settings')" icon="favorite" color="grey-5" />
+              <q-btn round @click="$router.push('/favorities')" icon="favorite" color="grey-5" />
             </div>
             <div class="absolute-top-right q-pr-lg" style="transform: translateY(50%);">
               <q-btn round @click="$router.push('/profile/settings')" icon="settings" color="grey-5" />
@@ -106,6 +106,7 @@
             this.number_of_threads_followed = response.data.data.number_of_threads_followed;
             this.number_of_votes = response.data.data.number_of_votes;
             this.number_of_comments = response.data.data.number_of_comments;
+            this.notifications = this.$store.state.forum.notifications.length;
           })
   },
     data() {

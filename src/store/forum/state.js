@@ -8,6 +8,8 @@ export default function () {
     accessToken: null,
     email: null,
     user_id: VueCookies.get("user_id"),
-    user_avatar: VueCookies.get("user_avatar")
+    user_role: VueCookies.get("user_role"),
+    user_avatar: VueCookies.get("user_avatar"),
+    notifications: []
   }
 }

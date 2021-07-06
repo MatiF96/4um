@@ -8,6 +8,7 @@ const routes = [
       { path: '/register', component: () => import('pages/Register.vue') },
       { path: '/login', component: () => import('pages/Login.vue') },
       { path: '/notifications', component: () => import('src/pages/Notifications.vue') },
+      { path: '/favorities', component: () => import('src/pages/Favorities.vue') },
       { path: '/creator', component: () => import('src/pages/Creator.vue') },
       { path: '/editor/:id', component: () => import('pages/Editor.vue') },
       { path: '/thread/:id', component: () => import('pages/Thread.vue') },

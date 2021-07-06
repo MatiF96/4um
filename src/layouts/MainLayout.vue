@@ -9,19 +9,25 @@
         <q-toolbar-title>
           4um - your forum
         </q-toolbar-title>
+        <!--
         <q-input dark dense standout label="Search" v-model="text" input-class="text-right" class="q-ml-md">
           <template v-slot:append>
             <q-icon v-if="text === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="text = ''" />
           </template>
         </q-input>
+        -->
       </q-toolbar>
       <q-toolbar class="col-3 bg-primary">
         <q-space />
         <q-tabs>
           <div class="row q-px-md text-white">
-            <div v-if="isLoggedIn">
+            <div class="row" v-if="isLoggedIn">
               <q-btn flat @click="$router.push('/creator')" icon="add"/>
+              <q-btn flat @click="$router.push('/favorities')" icon="favorite"/>
+              <div v-if="(role == 'admin' || role == 'moderator')">
+                <q-btn flat @click="$router.push('/verify')" label="Verify posts"/>
+              </div>
               <q-btn flat @click="logout" label="Log out"/>
             </div>
             <div class="row" v-else>
@@ -30,11 +36,25 @@
             </div>
           </div>
         </q-tabs>
-        <q-avatar outlined v-if="isLoggedIn" :key="update">
-          <img clickable v-if="avatar" :src="avatar" @click="$router.push('/profile')">
-          <img v-else clickable src="~assets/avatar.png" @click="$router.push('/profile')">
-          <q-badge v-if="notifications > 0" rounded color="red" floating @click="notifications=0">{{notifications}}</q-badge>
-        </q-avatar>
+        <div class="col-2" v-if="isLoggedIn&&notification>0">
+          <q-chip color="red" text-color="white" clickable size="md" >
+            <q-avatar outlined v-if="isLoggedIn" :key="update">
+              <img clickable v-if="avatar" :src="avatar" @click="$router.push('/profile')">
+              <img v-else clickable src="~assets/avatar.png" @click="$router.push('/profile')">
+            </q-avatar>
+            <div @click="$router.push('/notifications')" >
+              {{ notification }}
+            </div>
+          </q-chip>
+        </div>
+        <div class="col-2" v-else>
+          <q-chip color="transparent" text-color="transparent">
+            <q-avatar outlined v-if="isLoggedIn" :key="update">
+              <img clickable v-if="avatar" :src="avatar" @click="$router.push('/profile')">
+              <img v-else clickable src="~assets/avatar.png" @click="$router.push('/profile')">
+            </q-avatar>
+          </q-chip>
+        </div>
       </q-toolbar>
     </div>
     <q-page-container>
@@ -46,17 +66,27 @@
 <script>
 
 export default {
+  mounted() {
+    this.notifications = this.$store.state.forum.notifications.length;
+    this.avatar = this.$store.state.forum.user_avatar;
+  },
   data () {
     return {
       text: '',
       notifications: 0,
-      avatar: this.$store.state.forum.user_avatar,
+      avatar: null,
       update: 0
     }
   },
   computed: {
     isLoggedIn() {
       return this.$store.state.forum.accessToken;
+    },
+    role() {
+      return this.$store.state.forum.user_role;
+    },
+    notification() {
+      return this.$store.state.forum.notifications.length;
     }
   },
   methods: {
@@ -66,9 +96,11 @@ export default {
         this.update +=1;
       }
     },
+
     logout() {
       // eslint-disable-next-line no-undef
       this.$store.dispatch("forum/logout", {});
+      this.$root.$emit('unsubscribe');
     }
   }
 }

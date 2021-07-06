@@ -19,10 +19,12 @@ export function retrieveToken (context, credentials) {
 
         VueCookies.set("token", response.data.data.token, Infinity);
         VueCookies.set("user_id", response.data.data.user.id, Infinity);
+        VueCookies.set("user_role", response.data.data.user.user_roles[0], Infinity);
         VueCookies.set("user_avatar", response.data.data.user.avatar_url, Infinity);
         this.commit("forum/updateEmail", credentials.email);
         this.commit("forum/updateAccessToken", response.data.data.token);
         this.commit("forum/updateUserId", response.data.data.user.id);
+        this.commit("forum/updateUserRole", response.data.data.user.user_roles[0]);
         this.commit("forum/updateUserAvatar",response.data.data.user.avatar_url);
         this.$router.push("/", () => {});
       }
@@ -39,6 +41,7 @@ export function logout (context) {
   VueCookies.remove("token");
   VueCookies.remove("email");
   VueCookies.remove("user_id");
+  VueCookies.remove("user_role");
   VueCookies.remove("user_avatar");
   context.commit("updateAccessToken", VueCookies.get("token"));
 
@@ -412,6 +415,52 @@ export function loadAvatar (context){
         this.commit("forum/updateUserAvatar", response.data.data.avatar_url);
         console.log("Changed successfully");
         VueCookies.set("user_avatar", context.state.user_avatar, Infinity);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+export function getNotifications (context){
+
+  axios
+    .request({
+      url: '/api/forum/get-notifications',
+      method: 'get',
+      baseURL: 'https://www.4um.polarlooptheory.pl',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + VueCookies.get("token")
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        this.commit("forum/updateNotifications", response.data.data);
+        console.log("Notifications received");
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}
+export function deleteNotification(context, data) {
+  axios
+    .request({
+      url: '/api/forum/delete-notification',
+      method: 'post',
+      baseURL: 'https://www.4um.polarlooptheory.pl',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + VueCookies.get("token")
+      },
+      data:{
+        notification_id: data.notification_id,
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log("Notification deleted successfully");
+        this.dispatch("forum/getNotifications")
       }
     })
     .catch(error => {
