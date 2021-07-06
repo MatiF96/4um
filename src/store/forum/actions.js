@@ -467,3 +467,27 @@ export function deleteNotification(context, data) {
       console.log(error);
     })
 }
+export function deleteAllNotifications(context) {
+  axios
+    .request({
+      url: '/api/forum/delete-all-notifications',
+      method: 'post',
+      baseURL: 'https://www.4um.polarlooptheory.pl',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + VueCookies.get("token")
+      },
+      data:{
+
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log("All notifications deleted successfully");
+        this.dispatch("forum/getNotifications")
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
+}

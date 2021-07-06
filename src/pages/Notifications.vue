@@ -4,9 +4,12 @@
       <div class="row">
         <q-card square class="shadow-24" style="width:750px;">
           <q-card-section>
-            <div class="q-px-lg q-ma-md text-h6">
+            <div class="q-px-lg q-ma-lg text-h6">
               Notifications:
               <q-separator />
+              <div class="absolute-top-right q-pr-lg" style="transform: translateY(50%);">
+                <q-btn round @click="deleteAll" icon="delete" color="grey-5" />
+              </div>
               <q-list class="q-pt-md">
                   <q-field class="row q-pt-md" v-ripple v-for="notification in notifications" :key="notification.id" color="grey-4" label-color="primary" outlined :label="notification.message" stack-label>
                     <template v-slot:control>
@@ -52,6 +55,9 @@ export default {
       .finally(() => {
         this.$router.push(`/thread/`+thread_id);
       })
+    },
+    deleteAll() {
+      this.$store.dispatch("forum/deleteAllNotifications", {})
     }
   }
 }

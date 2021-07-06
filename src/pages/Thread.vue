@@ -470,7 +470,7 @@ export default {
 
     test() {
       this.retrieveData();
-      console.log("poszlo");
+      console.log("Thread data retrieved");
     }
 	}
 }
