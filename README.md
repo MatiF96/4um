@@ -1,6 +1,6 @@
 # 4um (4um-frontend)
 
-A Quasar Framework app
+A Quasar Framework app - our version of Reddit-like forum!
 
 ## Install the dependencies
 ```bash
