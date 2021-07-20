@@ -9,32 +9,32 @@
                 Followed threads:
               </div>
               <q-separator />
-                <q-list class="q-pt-md">
-                  <q-item class="row" clickable v-ripple v-for="thread in threads" :key="thread.id" @click="$router.push({ path: `/thread/${thread.id}` })">
-                    <q-item-section avatar>
-                      <q-avatar size="70px">
-                        <img v-if="thread.author[0].avatar_url" :src="thread.author[0].avatar_url">
-                        <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png">
-                      </q-avatar>
-                    </q-item-section>
-                    <q-item-section class="col-8">
-                      {{ thread.title }}
-                    </q-item-section>
-                    <q-item-section>
-                      <div class="row items-center justify-end text-secondary">
-                        {{ thread.number_of_posts }}
-                        <q-icon class="q-pl-sm" color="secondary" name="comment" />
-                      </div>
-                    </q-item-section>
-                    <q-item-section>
-                      <div class="row items-center justify-center text-secondary">
-                        <q-icon color="secondary" name="expand_less" />
-                          {{ thread.score }}
-                        <q-icon color="secondary" name="expand_more" />
-                      </div>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
+              <q-list class="q-pt-md">
+                <q-item class="row" clickable v-ripple v-for="thread in threads" :key="thread.id" @click="$router.push({ path: `/thread/${thread.id}` })">
+                  <q-item-section avatar>
+                    <q-avatar size="70px">
+                      <img v-if="thread.author[0].avatar_url" :src="thread.author[0].avatar_url">
+                      <img v-else src="https://4um.polarlooptheory.pl/img/avatar.png">
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section class="col-8">
+                    {{ thread.title }}
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="row items-center justify-end text-secondary">
+                      {{ thread.number_of_posts }}
+                      <q-icon class="q-pl-sm" color="secondary" name="comment" />
+                    </div>
+                  </q-item-section>
+                  <q-item-section>
+                    <div class="row items-center justify-center text-secondary">
+                      <q-icon color="secondary" name="expand_less" />
+                        {{ thread.score }}
+                      <q-icon color="secondary" name="expand_more" />
+                    </div>
+                  </q-item-section>
+                </q-item>
+              </q-list>
             </div>
           </q-card-section>
         </q-card>
@@ -44,27 +44,27 @@
 </template>
 
 <script>
+
 import VueCookies from "vue-cookies";
 import Vue from "vue";
 
 Vue.use(VueCookies);
 
 export default {
-
   beforeCreate () {
-        this.$axios
-          .request({
-            url: '/api/forum/get-followed-threads',
-            method: 'get',
-            baseURL: 'https://www.4um.polarlooptheory.pl',
-            headers: {
-                'Authorization': "Bearer " + VueCookies.get("token")
-            }
-          })
-          .then(response => {
-            this.threads = response.data.data;
-          })
-      },
+    this.$axios
+      .request({
+        url: '/api/forum/get-followed-threads',
+        method: 'get',
+        baseURL: 'https://www.4um.polarlooptheory.pl',
+        headers: {
+          'Authorization': "Bearer " + VueCookies.get("token")
+        }
+      })
+      .then(response => {
+        this.threads = response.data.data;
+      })
+  },
   data () {
     return {
       posts: [],

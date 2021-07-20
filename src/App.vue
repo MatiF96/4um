@@ -54,8 +54,7 @@ export default {
     });
     this.$root.$on('unsubscribe', () => {
       notificationChannel = pusher.unsubscribe('notification-'+this.$store.state.forum.user_id);
-      processedPostsChannel = pusher.unsubscribe('notification-'+this.$store.state.forum.user_id);
-      console.log("done");
+      processedPostsChannel = pusher.unsubscribe('processed-posts-'+this.$store.state.forum.user_id);
     });
   },
   methods: {

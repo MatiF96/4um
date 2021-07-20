@@ -9,24 +9,24 @@
               Change your password:
               <q-separator />
               <q-form @submit="onSubmit" class="q-pa-md">
-                  <q-input dense square v-model="old_password" type="password" label="Old password">
-                    <template v-slot:prepend>
-                      <q-icon name="lock" />
-                    </template>
-                  </q-input>
-                  <q-input dense square v-model="new_password" type="password" label="New password">
-                    <template v-slot:prepend>
-                      <q-icon name="lock" />
-                    </template>
-                  </q-input>
-                  <q-input dense square v-model="confirm_password" type="password" label="Confirm new password">
-                    <template v-slot:prepend>
-                      <q-icon name="lock" />
-                    </template>
-                  </q-input>
-                  <q-card-actions class="q-px-lg q-mt-lg">
-                    <q-btn unelevated size="md" color="primary" class="full-width text-white" label="Confirm" type="submit" />
-                  </q-card-actions>
+                <q-input dense square v-model="old_password" type="password" label="Old password">
+                  <template v-slot:prepend>
+                    <q-icon name="lock" />
+                  </template>
+                </q-input>
+                <q-input dense square v-model="new_password" type="password" label="New password">
+                  <template v-slot:prepend>
+                    <q-icon name="lock" />
+                  </template>
+                </q-input>
+                <q-input dense square v-model="confirm_password" type="password" label="Confirm new password">
+                  <template v-slot:prepend>
+                    <q-icon name="lock" />
+                  </template>
+                </q-input>
+                <q-card-actions class="q-px-lg q-mt-lg">
+                  <q-btn unelevated size="md" color="primary" class="full-width text-white" label="Confirm" type="submit" />
+                </q-card-actions>
               </q-form>
             </div>
           </q-card-section>
@@ -37,12 +37,10 @@
               <div class="column q-pa-md items-center">
                 <div class="row">
                   <q-avatar size="150px" :key="update">
-                    <!--<img v-if="file" :src="get_avatar()" >-->
                     <img v-if="avatar_url" :src="avatar_url" >
                     <img v-else src="~assets/avatar.png" >
                   </q-avatar>
                   <div class="absolute-center q-mt-xl q-ml-xl q-pl-xl">
-                    <!--<input type="file" @change='upload_avatar' name="avatar">-->
                     <q-file rounded borderless use-chips accept=".jpg, image/*" v-model="file" >
                       <q-icon name="mode_edit_outline" size="md"/>
                     </q-file>
@@ -56,28 +54,6 @@
               </div>
             </div>
           </q-card-section>
-          <!--
-          <q-card-section>
-            <div class="q-px-lg">
-              Notifications:
-              <q-separator />
-              <div class="column q-pa-md ">
-                <div class="row items-center justify-between">
-                  Post voted
-                  <q-toggle v-model="voted" />
-                </div>
-                <div class="row items-center justify-between">
-                  Post commented
-                  <q-toggle v-model="commented" />
-                </div>
-                <div class="row items-center justify-between">
-                  Comment answered
-                  <q-toggle v-model="answered" />
-                </div>
-              </div>
-            </div>
-          </q-card-section>
-          -->
         </q-card>
       </div>
     </div>
@@ -102,26 +78,25 @@
     },
     methods: {
       onSubmit() {
-      this.$store.dispatch("forum/editUser", {
-        user_id: this.$store.state.forum.user_id,
-        password: this.new_password,
-        password_confirmation: this.confirm_password,
-        quasar: this.$q
-      });
-    },
-    editAvatar() {
-      if (this.file) {
-        this.$store.dispatch("forum/editAvatar", {
-        user_id: this.$store.state.forum.user_id,
-        avatar: this.file,
-        quasar: this.$q
-      });
-      }
-    },
-    upload_avatar(e){
-      this.file = e.target.files[0];
-    },
-
+        this.$store.dispatch("forum/editUser", {
+          user_id: this.$store.state.forum.user_id,
+          password: this.new_password,
+          password_confirmation: this.confirm_password,
+          quasar: this.$q
+        });
+      },
+      editAvatar() {
+        if (this.file) {
+          this.$store.dispatch("forum/editAvatar", {
+          user_id: this.$store.state.forum.user_id,
+          avatar: this.file,
+          quasar: this.$q
+          });
+        }
+      },
+      upload_avatar(e){
+        this.file = e.target.files[0];
+      },
     }
   }
 </script>

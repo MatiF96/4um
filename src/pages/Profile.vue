@@ -91,24 +91,24 @@
   export default {
     beforeCreate () {
       this.$axios
-          .request({
-            url: '/api/user/get-user?user_id='+this.$store.state.forum.user_id,
-            method: 'get',
-            baseURL: 'https://www.4um.polarlooptheory.pl',
-            headers: {
-                'Authorization': "Bearer " + VueCookies.get("token")
-            }
-          })
-          .then(response => {
-            this.username = response.data.data.name;
-            this.avatar_url = response.data.data.avatar_url;
-            this.created_at = response.data.data.created_at;
-            this.number_of_threads_followed = response.data.data.number_of_threads_followed;
-            this.number_of_votes = response.data.data.number_of_votes;
-            this.number_of_comments = response.data.data.number_of_comments;
-            this.notifications = this.$store.state.forum.notifications.length;
-          })
-  },
+        .request({
+          url: '/api/user/get-user?user_id='+this.$store.state.forum.user_id,
+          method: 'get',
+          baseURL: 'https://www.4um.polarlooptheory.pl',
+          headers: {
+            'Authorization': "Bearer " + VueCookies.get("token")
+          }
+        })
+        .then(response => {
+          this.username = response.data.data.name;
+          this.avatar_url = response.data.data.avatar_url;
+          this.created_at = response.data.data.created_at;
+          this.number_of_threads_followed = response.data.data.number_of_threads_followed;
+          this.number_of_votes = response.data.data.number_of_votes;
+          this.number_of_comments = response.data.data.number_of_comments;
+          this.notifications = this.$store.state.forum.notifications.length;
+        })
+    },
     data() {
       return {
         username: '',

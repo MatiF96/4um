@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     onSubmit() {
-      // eslint-disable-next-line no-undef
       this.$store.dispatch('forum/retrieveToken', {
         email: this.email,
         password: this.password,

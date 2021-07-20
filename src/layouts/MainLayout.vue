@@ -1,6 +1,5 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-
     <div class="row no-wrap shadow-2">
       <q-toolbar class="col-9 bg-primary text-white" >
         <q-avatar square>
@@ -69,6 +68,12 @@ export default {
   mounted() {
     this.notifications = this.$store.state.forum.notifications.length;
     this.avatar = this.$store.state.forum.user_avatar;
+
+    this.$on('load', () => {
+      vm.$forceUpdate();
+      console.log("Loaded");
+    });
+
   },
   data () {
     return {
@@ -96,7 +101,6 @@ export default {
         this.update +=1;
       }
     },
-
     logout() {
       // eslint-disable-next-line no-undef
       this.$store.dispatch("forum/logout", {});

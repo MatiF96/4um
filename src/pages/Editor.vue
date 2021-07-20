@@ -40,25 +40,24 @@ Vue.use(VueCookies);
 
 export default {
   beforeCreate () {
-
     this.$axios
-          .request({
-            url: '/api/forum/get-thread?thread_id='+this.$route.params.id,
-            method: 'get',
-            baseURL: 'https://www.4um.polarlooptheory.pl',
-            headers: {
-                'Authorization': "Bearer " + VueCookies.get("token")
-            }
-          })
-          .then(response => {
-            this.id = response.data.data.id;
-            this.title = response.data.data.title;
-            this.text = response.data.data.text;
-            for (const tag of response.data.data.tags) {
-              this.tags = this.tags + tag.name + " ";
-            }
-            this.tags = this.tags.slice(0, -1);
-          })
+      .request({
+        url: '/api/forum/get-thread?thread_id='+this.$route.params.id,
+        method: 'get',
+        baseURL: 'https://www.4um.polarlooptheory.pl',
+        headers: {
+          'Authorization': "Bearer " + VueCookies.get("token")
+        }
+      })
+      .then(response => {
+        this.id = response.data.data.id;
+        this.title = response.data.data.title;
+        this.text = response.data.data.text;
+        for (const tag of response.data.data.tags) {
+          this.tags = this.tags + tag.name + " ";
+        }
+        this.tags = this.tags.slice(0, -1);
+      })
   },
   data () {
     return {

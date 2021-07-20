@@ -27,6 +27,7 @@ export function retrieveToken (context, credentials) {
         this.commit("forum/updateUserRole", response.data.data.user.user_roles[0]);
         this.commit("forum/updateUserAvatar",response.data.data.user.avatar_url);
         this.$router.push("/", () => {});
+        this.$emit('load');
       }
     })
     .catch(error => {
@@ -50,7 +51,6 @@ export function logout (context) {
 }
 
 export function register(context, credentials) {
-
   axios
     .post("https://www.4um.polarlooptheory.pl/api/authentication/register", null, {
       params:{
@@ -73,30 +73,30 @@ export function register(context, credentials) {
 }
 
 export function sendThread(context, data) {
-        axios
-          .request({
-            url: '/api/forum/add-thread',
-            method: 'post',
-            baseURL: 'https://www.4um.polarlooptheory.pl',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': "Bearer " + VueCookies.get("token")
-            },
-            data:{
-              title: data.title,
-              text: data.text,
-              tags: data.tags
-            }
-          })
-          .then(response => {
-            if (response.status === 200) {
-              console.log("Thread sent successfully");
-              this.$router.push("/", () => {});
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          })
+  axios
+    .request({
+      url: '/api/forum/add-thread',
+      method: 'post',
+      baseURL: 'https://www.4um.polarlooptheory.pl',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + VueCookies.get("token")
+      },
+      data:{
+        title: data.title,
+        text: data.text,
+        tags: data.tags
+      }
+    })
+    .then(response => {
+      if (response.status === 200) {
+        console.log("Thread sent successfully");
+        this.$router.push("/", () => {});
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    })
 }
 
 export function editThread(context, data) {
@@ -396,7 +396,6 @@ export function editAvatar(context, data) {
     })
 }
 export function loadAvatar (context){
-
   axios
     .request({
       url: '/api/user/get-user',
@@ -422,7 +421,6 @@ export function loadAvatar (context){
     })
 }
 export function getNotifications (context){
-
   axios
     .request({
       url: '/api/forum/get-notifications',

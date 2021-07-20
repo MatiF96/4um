@@ -23,9 +23,9 @@
           <q-card-section>
             <div class="row q-mt-md q-px-xl text-secondary">
               <q-list separator square class="q-px-lg" v-for="tag in tags" v-bind:key="tag.id" >
-                  <div class="col">
-                    #{{ tag.name }}
-                  </div>
+                <div class="col">
+                  #{{ tag.name }}
+                </div>
               </q-list>
             </div>
             <div class="row q-px-xl q-ma-xs items-center">
@@ -35,7 +35,7 @@
               </div>
               <div class="col-2" :key="updateList">
                 <q-btn dense :outline="!clickedUp" push size="sm" color="green-5" icon="expand_less" @click="voteForThread(1)" />
-                    {{ score }}
+                  {{ score }}
                 <q-btn dense :outline="!clickedDown" push size="sm" color="red-5" icon="expand_more" @click="voteForThread(-1)" />
               </div>
               <q-space />
@@ -180,12 +180,14 @@ export default {
     let pusher = new Pusher('4c6c0d7a3990f71c7c1d', {
       cluster: 'eu'
     });
-    let threadChannel = pusher.subscribe('thread-update-'+this.$route.params.id);
+    threadChannel = pusher.subscribe('thread-update-'+this.$route.params.id);
     var wtf = this.test();
 
     threadChannel.bind('thread-updated', this.test.bind(this));
   },
-
+  beforeDestroy () {
+    threadChannel = pusher.unsubscribe('thread-update-'+this.$route.params.id);
+  },
   props: ['post'],
   data () {
     return {

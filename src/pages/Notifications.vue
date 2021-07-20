@@ -32,7 +32,6 @@ import Vue from "vue";
 Vue.use(VueCookies);
 
 export default {
-
   data () {
     return {
       notif: [],
